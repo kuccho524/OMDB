@@ -1,0 +1,23 @@
+SELECT prod_name FROM products WHERE prod_name LIKE '%i%' AND SUBSTR(prod_name, LENGTH(prod_name)-2, 1) = 'ラ';
+
+上記のSQL文は以下の文に書き換え可能
+
+SELECT prod_name FROM products WHERE INSTR(prod_name, 'i') != 0 AND SUBSTR(prod_name, -3, 1) = 'ラ';
+
+
+
+スペースの後の1つ目の単語が大文字の「L」もしくは小文字の「l」で始まる文字列を検索。
+
+SELECT prod_name FROM products WHERE INSTR(prod_name,' ') <> 0 AND LOWER(SUBSTR(prod_name, INSTR(prod_name,' ')+1, 1)) = 'l';
+
+SELECT prod_name FROM products WHERE INSTR(prod_name,' ') ^= 0 AND UPPER(SUBSTR(prod_name, INSTR(prod_name,' ')+1)) LIKE 'L%';
+
+
+
+入社日（hiredate）から現在までの年数を求めるにはどの問い合わせを実行しますか。
+ただし端数は切り捨てて年数のみを求めることとします。
+
+SELECT TRUNC((SYSDATE - hiredate) / 365) FROM employees;
+
+日付-日付の演算では、2つの日付値間の日数が数値で戻される。また、設問では端数を切り捨てた年数が問われているので、
+求めた日数を365で割り、かつTRUNC関数（数値関数）で小数点を切り捨てます。
